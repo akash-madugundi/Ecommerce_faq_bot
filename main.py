@@ -12,7 +12,7 @@ class QueryRequest(BaseModel):
     query: str
 
 def send_query_to_dialogflow(query: str):
-    url = f"https://dialogflow.googleapis.com/v2/projects/{DIALOGFLOW_PROJECT_ID}/agent/sessions/12345:detectIntent"
+    url = "https://dialogflow.googleapis.com/v2/projects/ecommerce-faq-dpfu/agent/sessions/user-123:detectIntent"
     
     headers = {
         "Authorization": f"Bearer {DIALOGFLOW_ACCESS_TOKEN}",
@@ -35,6 +35,7 @@ def send_query_to_dialogflow(query: str):
 async def chat(request: QueryRequest):
     query = request.query
     dialogflow_response = send_query_to_dialogflow(query)
+    print("Dialogflow raw response:", dialogflow_response)
     response_text = dialogflow_response.get("queryResult", {}).get("fulfillmentText", "Sorry, I didn't understand that.")
     
     return {"response": response_text}
